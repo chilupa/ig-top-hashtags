@@ -4,19 +4,35 @@ import * as Yup from "yup"
 import axios from "axios"
 import { FaSearch } from "react-icons/fa"
 import { removeDuplicates } from "@chilupa/array-utils"
-import { CircularProgress, TextField, Typography } from "@material-ui/core"
+import {
+  CircularProgress,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@material-ui/core"
 import { IoMdClipboard } from "react-icons/io"
+import Alert from "../components/Alert/Alert"
 
 const FormComponent = ({ values, errors, isSubmitting, status }) => {
-  const [copySuccess, setCopySuccess] = useState("")
+  const [open, setOpen] = useState(false)
+  const [error, setError] = useState(false)
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return
+    }
+    setOpen(false)
+  }
 
   const copyToClipBoard = async copyMe => {
     try {
       const trimmedArray = copyMe.map(word => word.trim())
       await navigator.clipboard.writeText(trimmedArray.join(" "))
-      setCopySuccess("Copied!")
+      setOpen(true)
+      setError(false)
     } catch (err) {
-      setCopySuccess("Failed to copy!")
+      setOpen(true)
+      setError(true)
     }
   }
   const handleInputChange = event => (values.hashtag = event.target.value)
@@ -69,14 +85,6 @@ const FormComponent = ({ values, errors, isSubmitting, status }) => {
                 style={{ fontSize: "24px" }}
                 onClick={() => copyToClipBoard(values.hashtagSearchResult)}
               />
-              <span
-                style={{
-                  paddingLeft: "3px",
-                  fontSize: "16px",
-                }}
-              >
-                {copySuccess}
-              </span>
             </div>
           )}
         </div>
@@ -85,6 +93,19 @@ const FormComponent = ({ values, errors, isSubmitting, status }) => {
         <div>
           <p className="error">Something went wrong. Please try agian.</p>
         </div>
+      )}
+      {!error ? (
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+          <Alert severity="success">
+            <div>Copied!</div>
+          </Alert>
+        </Snackbar>
+      ) : (
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+          <Alert severity="error">
+            <div>Copy failed</div>
+          </Alert>
+        </Snackbar>
       )}
     </div>
   )
