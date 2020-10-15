@@ -21,8 +21,8 @@ $secondary-color: #EF6C00;
     color: $secondary-color;
 }
 
-.SearchBtn {
-    margin-left: 5px;
+.SearchIcon {
+    padding: 0.5rem;
     cursor: pointer;
     outline: none;
     background: none;
@@ -84,13 +84,19 @@ $secondary-color: #EF6C00;
     margin-left: 8px;
 }
 
-.ErrorMessage {
-    font-size: 0.7rem;
-    color: red;
-    margin-right: 20px;
-}
 
 .SearchResult {
     color: $primary-color;
-    text-align: start;
+    text-align: center;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.error{
+    color: red;
+    font-size: 16px !important;
 }

@@ -1,6 +1,6 @@
 import Typography from "typography"
-import sutro from "typography-theme-sutro"
+import fairyGatesTheme from "typography-theme-fairy-gates"
 
-const typography = new Typography(sutro)
+const typography = new Typography(fairyGatesTheme)
 
 export default typography
